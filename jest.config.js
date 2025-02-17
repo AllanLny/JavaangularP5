@@ -1,12 +1,9 @@
 module.exports = {
-  preset: 'jest-preset-angular',
-  setupFilesAfterEnv: ['<rootDir>/setup-jest.ts'],
   moduleNameMapper: {
     '@core/(.*)': '<rootDir>/src/app/core/$1',
-    '^src/(.*)$': '<rootDir>/src/$1',
-    '^app/(.*)$': '<rootDir>/src/app/$1',
-    '^environments/(.*)$': '<rootDir>/src/environments/$1',
   },
+  preset: 'jest-preset-angular',
+  setupFilesAfterEnv: ['<rootDir>/setup-jest.ts'],
   bail: false,
   verbose: false,
   collectCoverage: false,
@@ -27,9 +24,4 @@ module.exports = {
   moduleDirectories: [
     "node_modules"
   ],
-  transform: {
-    '^.+\\.(ts|html)$': 'ts-jest',
-  },
-  moduleFileExtensions: ['ts', 'html', 'js', 'json'],
-  transformIgnorePatterns: ['node_modules/(?!@ngrx)'],
 };
