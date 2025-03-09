@@ -6,9 +6,10 @@ module.exports = {
   setupFilesAfterEnv: ['<rootDir>/setup-jest.ts'],
   bail: false,
   verbose: false,
-  collectCoverage: false,
-  coverageDirectory: './coverage/jest',
+  collectCoverage: true,
+  coverageDirectory: 'coverage/jest',
   testPathIgnorePatterns: ['<rootDir>/node_modules/'],
+  testPathIgnorePatterns: ['<rootDir>/instrumented/'],
   coveragePathIgnorePatterns: ['<rootDir>/node_modules/'],
   coverageThreshold: {
     global: {

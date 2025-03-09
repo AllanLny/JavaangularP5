@@ -6,12 +6,7 @@ describe('Register spec', () => {
 
     cy.intercept('POST', '/api/auth/register', {
       statusCode: 201,
-      body: {
-        email: 'test@test.com',
-        firstName: 'firstName',
-        lastName: 'lastName',
-        password: 'test!1234'
-      },
+      body: {}
     }).as('register')
 
     cy.get('input[formControlName=email]').type("test@test.com")
@@ -28,6 +23,7 @@ describe('Register spec', () => {
     cy.visit('/register')
     cy.get('.register-form > .mat-focus-indicator').should('be.disabled')
   })
+
   it('Register with existing email', () => {
     cy.visit('/register')
     cy.get('input[formControlName=firstName]').type("firstName")
@@ -37,8 +33,22 @@ describe('Register spec', () => {
     cy.get('button[type=submit]').click()
     cy.get('.error').contains('An error occurred').should('be.visible')
   })
-  it('should display error on invalid form submission', () => {
-    cy.get('button[type="submit"]').click();
-    cy.get('.error').should('be.visible');
-  });
-});
+
+  it('should display error on registration failure', () => {
+    cy.visit('/register')
+
+    cy.intercept('POST', '/api/auth/register', {
+      statusCode: 400,
+      body: { message: 'Registration failed' }
+    }).as('registerFailure')
+
+    cy.get('input[formControlName=email]').type("test@test.com")
+    cy.get('input[formControlName=firstName]').type("firstName")
+    cy.get('input[formControlName=lastName]').type("lastName")
+    cy.get('input[formControlName=password]').type("test!1234")
+
+    cy.get('.register-form > .mat-focus-indicator').click()
+    cy.wait('@registerFailure')
+    cy.get('.error').should('be.visible')
+  })
+})
